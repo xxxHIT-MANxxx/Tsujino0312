@@ -10,7 +10,7 @@
 
 
 kern_return_t rwx_execute(void * func_addr, unsigned long arg0, unsigned long arg1, unsigned long arg2);
-kern_return_t rwx_read(void * addr, void * value, size_t length);
-kern_return_t rwx_write(void * addr, void * value, size_t length);
+kern_return_t rwx_read(uint64_t addr, void * value, size_t length);
+kern_return_t rwx_write(uint64_t addr, void * value, size_t length);
 
 #endif /* __RWX_H_ */

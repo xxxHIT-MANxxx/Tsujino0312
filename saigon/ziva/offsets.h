@@ -28,6 +28,8 @@ typedef struct offsets_e {
 	uint64_t copyout;
 	uint64_t all_proc;
 	uint64_t kern_proc;
+    uint64_t kernel_task;
+    uint64_t realhost;
 	uint64_t l1dcachesize_handler;
 	uint64_t l1dcachesize_string;
 	uint64_t l1icachesize_string;
@@ -50,7 +52,7 @@ typedef struct offsets_e {
 
 int offsets_init();
 offsets_t offsets_get_offsets();
-void * offsets_get_kernel_base();
+uint64_t offsets_get_kernel_base();
 void offsets_set_kernel_base(void * kernel_base);
 
 kern_return_t set_driver_offsets(char * driver_name);

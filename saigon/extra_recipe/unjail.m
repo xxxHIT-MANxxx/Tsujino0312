@@ -825,16 +825,6 @@ remappage[remapcnt++] = (x & (~PMK));\
     
 }
 
-static int
-my_IOConnectTrap4(int conn, long unused, uint64_t x1, uint64_t x2, uint64_t x0, uint64_t func)
-{
-  uint32_t rv;
-  printf("0x%llx(0x%llx, 0x%llx, 0x%llx)\n", func, x0, x1, x2);
-  rv = kx5(func, x0, x1, x2, 0, 0);
-  printf("-> 0x%x\n", rv);
-  return rv;
-}
-
 int
 go_extra_recipe(void)
 {

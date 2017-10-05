@@ -985,6 +985,7 @@ mach_port_t do_exploit() {
         printf("[INFO]: Got target service task port: %x\n", tp);
     } else {
         printf("[ERROR]: Triple Fetch failed!\n");
+        printf("[INFO]: Restart your device and try again. Triple fetch might take a couple of tries\n");
     }
     
     return tp;

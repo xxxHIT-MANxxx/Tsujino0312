@@ -80,7 +80,7 @@ cleanup:
  * Returns:			kern_return_t.
  */
 
-kern_return_t rwx_read(void * addr, void * value, size_t length) { 
+kern_return_t rwx_read(uint64_t addr, void * value, size_t length) {
 	kern_return_t ret = KERN_SUCCESS;
 
 	ret = rwx_execute(offsets_get_kernel_base() + OFFSET(copyout), (unsigned long)addr, (unsigned long)(value), length);
@@ -101,7 +101,7 @@ cleanup:
  * Returns:			kern_return_t.
  */
 
-kern_return_t rwx_write(void * addr, void * value, size_t length) { 
+kern_return_t rwx_write(uint64_t addr, void * value, size_t length) { 
 	kern_return_t ret = KERN_SUCCESS;
 
 	ret = rwx_execute(offsets_get_kernel_base() + OFFSET(copyin), (unsigned long)value, (unsigned long)addr, length);

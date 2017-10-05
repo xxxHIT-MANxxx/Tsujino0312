@@ -10,16 +10,16 @@
 #include "apple_ave_utils.h"
 
 static offsets_t g_offsets;
-static void * g_kernel_base = NULL;
+static uint64_t g_kernel_base = NULL;
 
 
 /*
  * Function name: 	offsets_get_kernel_base
  * Description:		Gets the kernel base.
- * Returns:			void *.
+ * Returns:			uint64_t.
  */
 
-void * offsets_get_kernel_base() {
+uint64_t offsets_get_kernel_base() {
     
     return g_kernel_base;
 }
@@ -204,6 +204,11 @@ void init_default(){
     	The OFFSET is mostly 0x98. If something else, then change this.
      */
     g_offsets.iosurface_vtable_offset_kernel_hijack = 0x98;
+    
+    
+    // TODO: Find offsets for each device instead
+    g_offsets.kernel_task = 0xfffffff0075c2050 - g_offsets.kernel_base;
+    g_offsets.realhost = 0xfffffff007548a98 - g_offsets.kernel_base;
 }
 
 void init_RELEASE_ARM64_T8010_1630_37894221() {
@@ -672,7 +677,6 @@ kern_return_t offsets_determine_initializer_for_device_and_build(char * device, 
 cleanup:
     return ret;
 }
-
 
 
 

