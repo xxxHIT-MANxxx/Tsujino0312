@@ -12,6 +12,8 @@
 typedef struct offsets_e {
 	uint64_t kernel_base;
     char * driver_name;
+    int encode_frame_input_buffer_size;
+    int encode_frame_output_buffer_size;
 	uint64_t encode_frame_offset_chroma_format_idc;
 	uint64_t encode_frame_offset_ui32_width;
 	uint64_t encode_frame_offset_ui32_height;

