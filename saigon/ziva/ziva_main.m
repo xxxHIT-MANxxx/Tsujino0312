@@ -91,7 +91,7 @@ kern_return_t set_tfp0 () {
     #define REALHOST_SPECIAL_4_OFF  0x30
     #define TASK_ITK_SELF_OFF       0xd8
     
-    kern_return_t ret = KERN_SUCCESS;
+    kern_return_t ret = KERN_FAILURE;
 
     // At this point we have root but no kernel task yet.
     int uid = setuid(0); // update host to host_priv
