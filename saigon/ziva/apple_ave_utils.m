@@ -178,7 +178,7 @@ kern_return_t apple_ave_utils_prepare_to_encode_frames(io_connect_t conn, void *
 	size_t output_buffer_size = OFFSET(encode_frame_output_buffer_size);
     
     printf("[INFO]: apple_ave_utils_prepare_to_encode_frames preparing to encode frames for connection\n");
-    sleep(4);
+
     ret = IOConnectCallMethod(conn,
         APPLEAVE2_EXTERNAL_METHOD_PREPARE_TO_ENCODE_FRAMES,
         NULL, 0, input_buffer,

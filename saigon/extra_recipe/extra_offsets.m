@@ -120,8 +120,9 @@ offload(const char *hw, NSString *ios)
     return -1;
 }
 
+// TODO: needs to be replaced with the main offsets.m
 int
-init_offsets(void)
+init_extra_offsets(void)
 {
     struct utsname uts;
 

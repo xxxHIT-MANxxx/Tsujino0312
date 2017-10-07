@@ -6,11 +6,12 @@
 #include <sys/utsname.h>
 #include <errno.h>
 #import <sys/sysctl.h>
+#include <UIKit/UIKit.h>
 
 #include "apple_ave_utils.h"
 
 static offsets_t g_offsets;
-static uint64_t g_kernel_base = NULL;
+static uint64_t g_kernel_base = 0;
 
 
 /*
@@ -26,13 +27,14 @@ uint64_t offsets_get_kernel_base() {
 
 /*
  * Function name: 	offsets_set_kernel_base
- * Description:		Sets the kernel base.
+ * Description:		Sets the kernel base from ziVA and for extra_recipe.
  * Returns:			void.
  */
 
-void offsets_set_kernel_base(void * kernel_base) {
+void offsets_set_kernel_base(uint64_t kernel_base) {
     
     g_kernel_base = kernel_base;
+    g_offsets.main_kernel_base = g_kernel_base - g_offsets.kernel_base - g_offsets.kernel_text;
 }
 
 
@@ -209,6 +211,7 @@ void init_default(){
     
     
     // TODO: Find offsets for each device instead
+    g_offsets.main_kernel_base = 0xfffffff000000000;
     g_offsets.kernel_task = 0xfffffff0075c2050 - g_offsets.kernel_base;
     g_offsets.realhost = 0xfffffff007548a98 - g_offsets.kernel_base;
 }
@@ -516,6 +519,7 @@ kern_return_t offsets_get_os_build_version(char * os_build_version) {
     char * errno_str = NULL;
     
     ret = sysctl(mib, namelen, NULL, &buffer_size, NULL, 0);
+    
     if (KERN_SUCCESS != ret)
     {
         errno_str = strerror(errno);
@@ -558,8 +562,7 @@ kern_return_t offsets_get_device_type_and_version(char * machine, char * build) 
     }
     
     ret = offsets_get_os_build_version(os_build_version);
-    if (KERN_SUCCESS != ret)
-    {
+    if (KERN_SUCCESS != ret) {
         printf("[ERROR]: getting OS Build version!");
         goto cleanup;
     }
@@ -589,7 +592,7 @@ kern_return_t offsets_determine_initializer_for_device_and_build(char * device, 
     printf("[INFO]: sysname: %s\n", u.sysname);
     printf("[INFO]: nodename: %s\n", u.nodename);
     printf("[INFO]: release: %s\n", u.release);
-    printf("[INFO]: version: %s\n", u.version);
+    printf("[INFO]: kernel version: %s\n", u.version);
     printf("[INFO]: machine: %s\n", u.machine);
     
     init_default();
@@ -707,6 +710,10 @@ kern_return_t offsets_get_init_func(init_func * func) {
     printf("[INFO]: machine: %s\n", machine);
     printf("[INFO]: build: %s\n", build);
     
+    
+    NSString *version = [[UIDevice currentDevice] systemVersion];
+    printf("[INFO]: version: %s\n", [version UTF8String]);
+    
     ret = offsets_determine_initializer_for_device_and_build(machine, build, func);
     if (KERN_SUCCESS != ret)
     {
@@ -718,8 +725,6 @@ kern_return_t offsets_get_init_func(init_func * func) {
 cleanup:
     return ret;
 }
-
-
 
 
 /*

@@ -65,7 +65,7 @@ extern uint64_t call5;
 
 extern int nports;
 
-int init_offsets(void);
+int init_extra_offsets(void);
 uint64_t constget(int idx);
 
 #endif /* offsets_h */

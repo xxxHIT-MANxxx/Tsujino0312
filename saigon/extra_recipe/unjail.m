@@ -9,6 +9,7 @@
 
 #include "unjail.h"
 #include "extra_offsets.h"
+#include "offsets.h"
 
 // @qwertyoruiop's KPP bypass
 
@@ -830,7 +831,7 @@ go_extra_recipe(void)
 {
     int rv;
     
-    kpp(0, 0, kernel_base, kaslr_shift);
+    kpp(0, 0, OFFSET(main_kernel_base), kaslr_shift);
     
     struct utsname uts;
     uname(&uts);
