@@ -144,6 +144,7 @@
 		753A83441F78046200CB38A9 /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOTypes.h; path = saigon/IOKit/IOTypes.h; sourceTree = "<group>"; };
 		753A83451F78046200CB38A9 /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSKext.h; path = saigon/IOKit/OSKext.h; sourceTree = "<group>"; };
 		753A83461F78046200CB38A9 /* OSMessageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSMessageNotification.h; path = saigon/IOKit/OSMessageNotification.h; sourceTree = "<group>"; };
+		75706FA71F89506E0009735B /* libjb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libjb.h; path = saigon/extra_recipe/libjb.h; sourceTree = "<group>"; };
 		75CCC4261F85C52B00E46AE5 /* dropbear.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = dropbear.plist; path = saigon/dropbear.plist; sourceTree = "<group>"; };
 		75CCC4271F85C52B00E46AE5 /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; name = bootstrap.tar; path = saigon/bootstrap.tar; sourceTree = "<group>"; };
 		75CCC4281F85C52C00E46AE5 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = launchctl; path = saigon/launchctl; sourceTree = "<group>"; };
@@ -232,6 +233,7 @@
 				75213EA01F776F7F003FA69D /* pte_stuff.h */,
 				75213EA11F776F7F003FA69D /* unjail.h */,
 				75213EA21F776F7F003FA69D /* unjail.m */,
+				75706FA71F89506E0009735B /* libjb.h */,
 			);
 			name = extra_recipe;
 			sourceTree = "<group>";

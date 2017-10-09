@@ -94,9 +94,11 @@ void init_default(){
      
      Let's say that W8 is 0x4AD0 (our case for that symbol).
      We see that there's a memcpy(X19 + 0x4AA8, X27 + 0x3B70, 0x5AC)
+     memcpy((void *)(v9 + 0x4AA8), v16 + 0xEDC, 0x5ACuLL);
+     
      Our chroma offset falls within that memcpy.
-     So if 0x4AD0 is the chroma offset, 0x4AD0 - 0x4AA8 == 0x28.
-     The memcpy from our controlled input starts at 0x3B70 in that case.
+     So if 0x4AD0 (FFFFFFF0066A0378) is the chroma offset, 0x4AD0 - 0x4AA8 == 0x28.
+     The memcpy (FFFFFFF0066A0304) from our controlled input starts at 0x3B70 in that case.
      Therefore the chroma format offset is 0x3B70 + 0x28.
      */
     /*
@@ -111,7 +113,7 @@ void init_default(){
      We see that the memcpy that is responsible for copying ui32Width looks like that:
      memcpy(X19 + 0x194C, X27 + 0xA14) // AVEH7
      
-     X28 is ui32Width in our case, which is X19 + 0x194C.
+     X28 is ui32Width in our case, which is X19 + 0x194C (FFFFFFF0066A02AC).
      Therefore 0xA14 is ui32Width in our case
      */
     /*

